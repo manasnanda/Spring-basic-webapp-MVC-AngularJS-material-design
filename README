@@ -1,3 +1,4 @@
+Apache Maven 3.0.4
 
 create new project:
 $ mvn archetype:generate -DgroupId=demo.webapp \
