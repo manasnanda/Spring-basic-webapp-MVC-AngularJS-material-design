@@ -1,0 +1,32 @@
+
+create new project:
+$ mvn archetype:generate -DgroupId=demo.webapp \
+    -DartifactId=DemoWebApp \
+    -DarchetypeArtifactId=maven-archetype-webapp \
+    -DinteractiveMode=false
+
+tomcat:
+
+- create new file on .m2 folder ~/.m2/settings.xml with permissions -rw-rw-r-- user and group current shell user
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <servers>
+        <server>
+            <id>tomcatServer</id>
+            <username>test</username>
+            <password>test</password>
+        </server>
+    </servers>
+</settings>
+
+- add configuration to pom.xml
+
+- add roles to /etc/tomcat6/tomcat-users.xml and restart tomcat
+only this roles are needed:
+  <role rolename="manager-gui"/>
+  <user username="tom" password="tom" roles="manager-gui"/>
+  <role rolename="manager"/>
+  <user username="test" password="test" roles="manager"/>
+
+$ mvn clean tomcat:undeploy tomcat:deploy -Dmaven.test.skip=true
+
