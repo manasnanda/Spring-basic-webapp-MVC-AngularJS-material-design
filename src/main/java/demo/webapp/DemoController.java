@@ -16,7 +16,9 @@ public class DemoController {
     private static final Logger logger = LogManager.getLogger("DemoController");
  
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String welcome(ModelMap model) {
+    public String index(ModelMap model) {
+
+        logger.debug("==== index");
  
         model.addAttribute("message", "Welcome");
 
@@ -24,10 +26,12 @@ public class DemoController {
  
     }
  
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-    public String welcomeName(@PathVariable String name, ModelMap model) {
+    @RequestMapping(value = "/{page}", method = RequestMethod.GET)
+    public String getPage(@PathVariable String page, ModelMap model) {
  
-        model.addAttribute("message", "Welcome " + name);
+        logger.debug("==== index " + page);
+
+        model.addAttribute("message", "Welcome " + page);
 
         return "index";
  
