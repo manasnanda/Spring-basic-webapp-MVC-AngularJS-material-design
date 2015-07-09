@@ -1,6 +1,9 @@
-Apache Maven 3.0.4
+Apache Maven 3.0.5
+Java 7
+Tomcat 7
 
-create new project:
+if your starting from scratch here is how to
+create new webapp project:
 $ mvn archetype:generate -DgroupId=demo.webapp \
     -DartifactId=DemoWebApp \
     -DarchetypeArtifactId=maven-archetype-webapp \
@@ -22,12 +25,34 @@ tomcat:
 
 - add configuration to pom.xml
 
+    ...
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <url>http://127.0.0.1:8080/manager/text</url>
+                    <server>tomcatServer</server>
+                    <path>/demoWebApp</path>
+                </configuration>
+            </plugin>
+        </plugins>
+  </build>
+
 - add roles to /etc/tomcat6/tomcat-users.xml and restart tomcat
 only this roles are needed:
-  <role rolename="manager-gui"/>
-  <user username="tom" password="tom" roles="manager-gui"/>
-  <role rolename="manager"/>
-  <user username="test" password="test" roles="manager"/>
+<role rolename="manager-gui"/>
+<user username="tom" password="tom" roles="manager-gui"/>
+<role rolename="manager-script"/>
+<user username="test" password="test" roles="manager-script"/>
 
-$ mvn clean tomcat:undeploy tomcat:deploy -Dmaven.test.skip=true
+compile and deploy: 
+$ mvn clean tomcat7:undeploy tomcat7:deploy -Dmaven.test.skip=true
+or
+$ mvn clean tomcat7:redeploy -Dmaven.test.skip=true
 
+finally run tests: 
+$ mvn clean test -Dwebdriver.firefox.bin='/usr/bin/firefox'
+
+to specify a Xorg display running from jenkins: 
+    define on .bash_aliases alias firefox='DISPLAY=:0 /usr/bin/firefox'
+ 
